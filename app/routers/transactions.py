@@ -16,6 +16,6 @@ def list_transactions(user_id: int = Query(...), SessionLocal=Depends(get_sessio
         return crud.list_transactions(db, user_id)
 
 @router.get("/summary")
-def summary(month: str = Query(..., pattern=r"^\d{4}-\d{2}$"), user_id: int = Query(...), SessionLocal=Depends(get_sessionmaker)):
+def get_summary(user_id: int, month: str = Query(..., pattern=r"^\d+$", description="Month (numbers only, e.g. 202510)"), db: Session = Depends(get_db)):
     with SessionLocal() as db:
         return crud.monthly_summary(db, user_id, month)
